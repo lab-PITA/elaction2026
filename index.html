@@ -3,358 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>2026年 衆院選 比例代表 投票支援ガイド</title>
+    <title>2026年衆議院選挙：全10政党 徹底比較ガイド</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .tab-content { display: none; }
-        .tab-content.active { display: block; }
-        .party-ldp { --party-color: #00529A; } /* 自民: 青 */
-        .party-union { --party-color: #0047A1; } /* 中道改革連合: 紺 */
-        .party-dpp { --party-color: #FFD700; } /* 国民: 黄 */
-        .party-ishin { --party-color: #58AD27; } /* 維新: 緑 */
-        .party-mirai { --party-color: #00CED1; } /* チームみらい: 水色 */
-        .party-jcp { --party-color: #DB0000; } /* 共産: 赤 */
-        .party-reiwa { --party-color: #FF007F; } /* れいわ: 桃 */
-        .party-sansei { --party-color: #E67E22; } /* 参政: 橙 */
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap');
         
-        .progress-bg { background-color: #e5e7eb; border-radius: 9999px; height: 1.5rem; overflow: hidden; }
-        .progress-fill { height: 100%; transition: width 0.5s ease-in-out; }
-        
-        /* フッターの視認性改善 */
-        .source-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; }
+        body {
+            font-family: 'Noto Sans JP', 'Inter', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+        }
+
+        .chart-bar {
+            transition: width 1s ease-in-out;
+        }
+
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(8px);
+        }
+
+        /* 政党カラーの定義（画像から抽出） */
+        .bg-jimin { background-color: #3CA324; }
+        .bg-ishin { background-color: #6FBA2C; }
+        .bg-chudo { background-color: #0073BD; }
+        .bg-kokumin { background-color: #F8BC00; }
+        .bg-kyosan { background-color: #DB001C; }
+        .bg-reiwa { background-color: #E4027E; }
+        .bg-shamin { background-color: #01A8EC; }
+        .bg-sansei { background-color: #D85D0F; }
+        .bg-hoshu { background-color: #0A82DC; }
+        .bg-mirai { background-color: #66FFCC; }
+
+        .border-jimin { border-color: #3CA324; }
+        .border-chudo { border-color: #0073BD; }
+        .border-mirai { border-color: #66FFCC; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans">
+<body class="antialiased">
 
-    <header class="bg-white border-b sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4 py-4">
-            <h1 class="text-2xl font-bold text-center">2026年 衆院選 比例代表 投票支援ガイド</h1>
-            <p class="text-sm text-center text-gray-600 mt-1">報告書「選挙公約達成度と信頼性分析」に基づく詳細比較</p>
-        </div>
-        <!-- タブメニュー -->
-        <div class="max-w-6xl mx-auto px-2">
-            <nav class="flex overflow-x-auto space-x-1 pb-2 scrollbar-hide" id="tabs">
-                <button onclick="showTab('ldp')" class="tab-btn px-4 py-2 text-sm font-bold border-b-4 border-transparent hover:bg-gray-100 whitespace-nowrap" style="color: #00529A;" data-party="ldp">自由民主党</button>
-                <button onclick="showTab('union')" class="tab-btn px-4 py-2 text-sm font-bold border-b-4 border-transparent hover:bg-gray-100 whitespace-nowrap" style="color: #0047A1;" data-party="union">中道改革連合</button>
-                <button onclick="showTab('dpp')" class="tab-btn px-4 py-2 text-sm font-bold border-b-4 border-transparent hover:bg-gray-100 whitespace-nowrap" style="color: #d4af37;" data-party="dpp">国民民主党</button>
-                <button onclick="showTab('ishin')" class="tab-btn px-4 py-2 text-sm font-bold border-b-4 border-transparent hover:bg-gray-100 whitespace-nowrap" style="color: #58AD27;" data-party="ishin">日本維新の会</button>
-                <button onclick="showTab('mirai')" class="tab-btn px-4 py-2 text-sm font-bold border-b-4 border-transparent hover:bg-gray-100 whitespace-nowrap" style="color: #00CED1;" data-party="mirai">チームみらい</button>
-                <button onclick="showTab('sansei')" class="tab-btn px-4 py-2 text-sm font-bold border-b-4 border-transparent hover:bg-gray-100 whitespace-nowrap" style="color: #E67E22;" data-party="sansei">参政党</button>
-                <button onclick="showTab('jcp')" class="tab-btn px-4 py-2 text-sm font-bold border-b-4 border-transparent hover:bg-gray-100 whitespace-nowrap" style="color: #DB0000;" data-party="jcp">日本共産党</button>
-                <button onclick="showTab('reiwa')" class="tab-btn px-4 py-2 text-sm font-bold border-b-4 border-transparent hover:bg-gray-100 whitespace-nowrap" style="color: #FF007F;" data-party="reiwa">れいわ新選組</button>
-            </nav>
+    <!-- Header -->
+    <header class="bg-white border-b border-slate-200 py-6 px-4 mb-8">
+        <div class="max-w-6xl mx-auto">
+            <h1 class="text-3xl font-bold text-slate-900 tracking-tight">2026年衆議院議員総選挙：政党比較分析</h1>
+            <p class="text-slate-500 mt-2 text-sm uppercase tracking-wider">第51回衆議院議員総選挙 比例代表投票の判断材料</p>
         </div>
     </header>
 
-    <main class="max-w-5xl mx-auto px-4 py-8">
+    <main class="max-w-6xl mx-auto px-4 pb-20">
 
-        <!-- 自由民主党 -->
-        <div id="ldp" class="tab-content active party-ldp">
-            <div class="bg-white rounded-xl shadow-sm border p-6">
-                <h2 class="text-3xl font-bold mb-4" style="color: var(--party-color);">自由民主党</h2>
-                <div class="grid md:grid-cols-2 gap-8">
+        <!-- Section 1: Manifesto Score -->
+        <section class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="w-1 h-8 bg-blue-600 mr-3"></div>
+                <h2 class="text-xl font-bold">マニフェスト評価（早稲田大学デモクラシー創造研究所）</h2>
+            </div>
+            <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+                <div class="space-y-4">
+                    <!-- チームみらい -->
                     <div>
-                        <h3 class="font-bold text-lg mb-2">📊 実績と分析指標</h3>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>機能的信頼（実務・予算遂行能力）[46]</span><span>85%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 85%; background-color: var(--party-color);"></div></div>
+                        <div class="flex justify-between mb-1 text-sm font-medium">
+                            <span>チームみらい (55点)</span>
+                            <span class="text-slate-400">1位 / 具体的工程表</span>
                         </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>倫理的信頼（政治改革・誠実さ）[1, 48]</span><span>15%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 15%; background-color: #ef4444;"></div></div>
+                        <div class="w-full bg-slate-100 rounded-full h-4">
+                            <div class="bg-mirai h-4 rounded-full" style="width: 55%"></div>
                         </div>
                     </div>
-                    <div class="space-y-4">
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-blue-800">✅ メメリット</h4>
-                            <p class="text-sm">圧倒的な実行力。高市政権下での半導体・量子技術への国家投資公約は、既存の予算スキームにより最も確実に遂行されると分析されています [47]。</p>
+                    <!-- 中道改革 -->
+                    <div>
+                        <div class="flex justify-between mb-1 text-sm font-medium">
+                            <span>中道改革連合 (40点)</span>
+                            <span class="text-slate-400">安定性・若者の声</span>
                         </div>
-                        <div class="bg-red-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-red-800">❌ デメリット・弱点</h4>
-                            <p class="text-sm">「倫理的信頼」の深刻な欠如。政治資金の透明化公約が党内の抵抗で骨抜きになるリスクが高い（達成予測15%）と警鐘を鳴らされています [1, 48]。</p>
+                        <div class="w-full bg-slate-100 rounded-full h-4">
+                            <div class="bg-chudo h-4 rounded-full" style="width: 40%"></div>
+                        </div>
+                    </div>
+                    <!-- 自民 / 共産 -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <div class="flex justify-between mb-1 text-sm font-medium">
+                                <span>自由民主党 (35点)</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-3">
+                                <div class="bg-jimin h-3 rounded-full" style="width: 35%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-1 text-sm font-medium">
+                                <span>日本共産党 (35点)</span>
+                            </div>
+                            <div class="w-full bg-slate-100 rounded-full h-3">
+                                <div class="bg-kyosan h-3 rounded-full" style="width: 35%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 他の政党 -->
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-2">
+                        <div class="text-center p-3 bg-slate-50 rounded-lg">
+                            <div class="text-xs text-slate-500">国民民主</div>
+                            <div class="font-bold">25点</div>
+                        </div>
+                        <div class="text-center p-3 bg-slate-50 rounded-lg">
+                            <div class="text-xs text-slate-500">維新</div>
+                            <div class="font-bold">20点</div>
+                        </div>
+                        <div class="text-center p-3 bg-slate-50 rounded-lg">
+                            <div class="text-xs text-slate-500">れいわ</div>
+                            <div class="font-bold">25点</div>
+                        </div>
+                        <div class="text-center p-3 bg-slate-50 rounded-lg">
+                            <div class="text-xs text-slate-500">参政</div>
+                            <div class="font-bold">25点</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- 中道改革連合 -->
-        <div id="union" class="tab-content party-union">
-            <div class="bg-white rounded-xl shadow-sm border p-6">
-                <h2 class="text-3xl font-bold mb-4" style="color: var(--party-color);">中道改革連合 <span class="text-lg font-normal">(立憲民主党＋公明党)</span></h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="font-bold text-lg mb-2">📊 実績と分析指標</h3>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>過去の公約達成率（旧公明実績）[13]</span><span>72%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 72%; background-color: var(--party-color);"></div></div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>新政策（食料品非課税）実現性予測 [44]</span><span>50%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 50%; background-color: #f59e0b;"></div></div>
-                        </div>
-                    </div>
+        <!-- Section 2: Generation Support -->
+        <section class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="w-1 h-8 bg-blue-600 mr-3"></div>
+                <h2 class="text-xl font-bold">世代別支持動向（読売・FNN調査）</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Youth -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-lg mb-4 text-blue-800">18-29歳の支持傾向</h3>
                     <div class="space-y-4">
-                        <div class="bg-blue-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-blue-800">✅ メメリット</h4>
-                            <p class="text-sm">旧公明の実務実績（達成率1位）と立憲の再分配政策の融合。所得の低い層への現金給付や教育無償化の推進力に期待が集まっています [4, 25]。</p>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">自由民主党 (高市内閣)</span>
+                            <span class="font-bold text-blue-600">88.7%</span>
                         </div>
-                        <div class="bg-red-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-red-800">❌ デメリット・弱点</h4>
-                            <p class="text-sm">支持基盤（労組と宗教団体）の乖離による不安定さ。また財源を市場運用益に頼る案は実現性が不透明との指摘があります [45]。</p>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-jimin h-full" style="width: 88.7%"></div>
                         </div>
+                        <p class="text-xs text-slate-500 mt-4">若年層では「実行力」を評価し自民党支持が圧倒的。国民民主、チームみらいも一定の支持を集める。</p>
+                    </div>
+                </div>
+                <!-- Elder -->
+                <div class="bg-white p-6 rounded-xl border border-slate-200">
+                    <h3 class="font-bold text-lg mb-4 text-red-800">70歳以上の支持傾向</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm">中道改革連合</span>
+                            <span class="font-bold text-red-600">31.0%</span>
+                        </div>
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="bg-chudo h-full" style="width: 31%"></div>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-4">高齢層では組織力の強い中道改革連合が根強い。共産、社民の支持層も比較的高齢に偏る。</p>
                     </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- 国民民主党 -->
-        <div id="dpp" class="tab-content party-dpp">
-            <div class="bg-white rounded-xl shadow-sm border p-6">
-                <h2 class="text-3xl font-bold mb-4" style="color: #d4af37;">国民民主党</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="font-bold text-lg mb-2">📊 実績と分析指標</h3>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>学生版マニフェスト評価（全政党1位）[8]</span><span>50点 / 100</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 50%; background-color: #d4af37;"></div></div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>「手取りを増やす」公約実現性 [51]</span><span>65%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 65%; background-color: #d4af37;"></div></div>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
-                            <h4 class="font-bold text-yellow-800">✅ メメリット</h4>
-                            <p class="text-sm">ターゲットを絞った具体的政策は、連立工作時の条件として通りやすく、部分的な政策を確実に実現させる交渉力に長けています [8, 51]。</p>
-                        </div>
-                        <div class="bg-red-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-red-800">❌ デメリット・弱点</h4>
-                            <p class="text-sm">小規模政党ゆえの限界。外交・安保などの国家の根幹政策で巨大勢力に埋没しやすく、独自色を維持するのが困難です [50]。</p>
-                        </div>
-                    </div>
+        <!-- Section 3: Policy Matrix -->
+        <section class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="w-1 h-8 bg-blue-600 mr-3"></div>
+                <h2 class="text-xl font-bold">主要争点別 政策比較</h2>
+            </div>
+            <div class="overflow-x-auto bg-white rounded-xl border border-slate-200">
+                <table class="w-full text-sm text-left border-collapse">
+                    <thead class="bg-slate-50 text-slate-700 font-bold">
+                        <tr>
+                            <th class="p-4 border-b">政党名</th>
+                            <th class="p-4 border-b">消費税へのスタンス</th>
+                            <th class="p-4 border-b">防衛・外交</th>
+                            <th class="p-4 border-b">環境 (WWF評価)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr>
+                            <td class="p-4 font-bold border-l-4 border-jimin">自由民主党</td>
+                            <td class="p-4">現行維持（地域投資優先）</td>
+                            <td class="p-4">安保3文書、インテリジェンス強化</td>
+                            <td class="p-4 text-red-600 font-bold">× 低評価</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold border-l-4 border-chudo">中道改革連合</td>
+                            <td class="p-4">食料品を恒久的0%</td>
+                            <td class="p-4">専守防衛、現実路線</td>
+                            <td class="p-4 text-amber-600 font-bold">△ 中評価</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold border-l-4 border-mirai">チームみらい</td>
+                            <td class="p-4">維持（社会保険料下げ優先）</td>
+                            <td class="p-4">テクノロジー防衛、知財保護</td>
+                            <td class="p-4 text-slate-400 italic">評価対象外</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold border-l-4 border-ishin">日本維新の会</td>
+                            <td class="p-4">食料品 2年間0%</td>
+                            <td class="p-4">スパイ防止法、安保改定前倒し</td>
+                            <td class="p-4 text-red-600 font-bold">× 低評価</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold border-l-4 border-kokumin">国民民主党</td>
+                            <td class="p-4">一律5%（暫定）</td>
+                            <td class="p-4">自衛力強化、自分の国は自分で</td>
+                            <td class="p-4 text-amber-600 font-bold">△ 中評価</td>
+                        </tr>
+                        <tr>
+                            <td class="p-4 font-bold border-l-4 border-kyosan">日本共産党</td>
+                            <td class="p-4">ただちに5%・将来廃止</td>
+                            <td class="p-4">安保法制廃止、軍拡反対</td>
+                            <td class="p-4 text-green-600 font-bold">○ 高評価</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Section 4: Seat Prediction -->
+        <section class="mb-12">
+            <div class="flex items-center mb-6">
+                <div class="w-1 h-8 bg-blue-600 mr-3"></div>
+                <h2 class="text-xl font-bold">予測議席と期待達成率（ホリエモンAI選挙）</h2>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4">
+                <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
+                    <div class="text-xs text-slate-400 mb-1">自民</div>
+                    <div class="text-2xl font-bold text-slate-800">276</div>
+                    <div class="text-[10px] mt-1 bg-green-100 text-green-700 px-1 rounded inline-block">達成率 60%</div>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
+                    <div class="text-xs text-slate-400 mb-1">中道改革</div>
+                    <div class="text-2xl font-bold text-slate-800">91</div>
+                    <div class="text-[10px] mt-1 bg-amber-100 text-amber-700 px-1 rounded inline-block">達成率 30%</div>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
+                    <div class="text-xs text-slate-400 mb-1">維新</div>
+                    <div class="text-2xl font-bold text-slate-800">33</div>
+                    <div class="text-[10px] mt-1 bg-amber-100 text-amber-700 px-1 rounded inline-block">達成率 35%</div>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
+                    <div class="text-xs text-slate-400 mb-1">国民</div>
+                    <div class="text-2xl font-bold text-slate-800">23</div>
+                    <div class="text-[10px] mt-1 bg-amber-100 text-amber-700 px-1 rounded inline-block">達成率 35%</div>
+                </div>
+                <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
+                    <div class="text-xs text-slate-400 mb-1">チームみらい</div>
+                    <div class="text-2xl font-bold text-slate-800">7</div>
+                    <div class="text-[10px] mt-1 bg-blue-100 text-blue-700 px-1 rounded inline-block">達成率 80%</div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- 日本維新の会 -->
-        <div id="ishin" class="tab-content party-ishin">
-            <div class="bg-white rounded-xl shadow-sm border p-6">
-                <h2 class="text-3xl font-bold mb-4" style="color: var(--party-color);">日本維新の会</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="font-bold text-lg mb-2">📊 実績と分析指標</h3>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>行政改革・コスト削減実績 [2, 53]</span><span>50点 / 100</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 50%; background-color: var(--party-color);"></div></div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>全国展開への実行力予測 [52]</span><span>40%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 40%; background-color: #f59e0b;"></div></div>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="bg-green-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-green-800">✅ メメリット</h4>
-                            <p class="text-sm">「身を切る改革」という明確な実績。聖域なき行革や行政の効率化については、他党にない高い実行力が期待されます [2, 53]。</p>
-                        </div>
-                        <div class="bg-red-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-red-800">❌ デメリット・弱点</h4>
-                            <p class="text-sm">地方の実績が国政（外交・国際金融等）にそのまま通用するかという「信頼の飛躍」が課題。支持層の広がりの鈍化も指摘されています [1, 52]。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- チームみらい -->
-        <div id="mirai" class="tab-content party-mirai">
-            <div class="bg-white rounded-xl shadow-sm border p-6">
-                <h2 class="text-3xl font-bold mb-4" style="color: var(--party-color);">チームみらい</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="font-bold text-lg mb-2">📊 実績と分析指標</h3>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>IT活用・デジタル刷新力 [54]</span><span>90%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 90%; background-color: var(--party-color);"></div></div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>組織的安定性（地方基盤）[55]</span><span>10%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 10%; background-color: #ef4444;"></div></div>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="bg-cyan-50 p-4 rounded-lg border border-cyan-100">
-                            <h4 class="font-bold text-cyan-800">✅ メメリット</h4>
-                            <p class="text-sm">テクノロジーによる政治の刷新。スマホでの直接民主主義的なアプローチなど、既存政党にはない斬新な手法への期待は最大です [54]。</p>
-                        </div>
-                        <div class="bg-red-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-red-800">❌ デメリット・弱点</h4>
-                            <p class="text-sm">地方組織の不在。都市部以外での認知度が極めて低く、国政レベルでの法案提出に必要な議席数を確保できるかが最大の壁です [55]。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 参政党 -->
-        <div id="sansei" class="tab-content party-sansei">
-            <div class="bg-white rounded-xl shadow-sm border p-6">
-                <h2 class="text-3xl font-bold mb-4" style="color: var(--party-color);">参政党</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="font-bold text-lg mb-2">📊 実績と分析指標</h3>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>イデオロギー的信頼（固定層）[1]</span><span>80%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 80%; background-color: var(--party-color);"></div></div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>政策の普遍性・一般支持予測 [1, 93]</span><span>15%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 15%; background-color: #ef4444;"></div></div>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="bg-orange-50 p-4 rounded-lg border border-orange-100">
-                            <h4 class="font-bold text-orange-800">✅ メメリット</h4>
-                            <p class="text-sm">食の安全や教育制度の抜本改革など、既存政党が触れない独自のテーマに特化。草の根のボトムアップ政治への熱狂的な支持基盤があります [1, 93]。</p>
-                        </div>
-                        <div class="bg-red-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-red-800">❌ デメリット・弱点</h4>
-                            <p class="text-sm">政策の「独自性」が強すぎるため、国会内での他党との協力（合意形成）が極めて難しい点。経済や外交のメインストリームからは外れる傾向にあります [93]。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 日本共産党 -->
-        <div id="jcp" class="tab-content party-jcp">
-            <div class="bg-white rounded-xl shadow-sm border p-6">
-                <h2 class="text-3xl font-bold mb-4" style="color: var(--party-color);">日本共産党</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="font-bold text-lg mb-2">📊 実績と分析指標</h3>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>理念的一貫性（貧困・環境）[39]</span><span>95%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 95%; background-color: var(--party-color);"></div></div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>野党共闘による政策実現性 [35]</span><span>30%</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 30%; background-color: #f59e0b;"></div></div>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="bg-red-50 p-4 rounded-lg border border-red-100">
-                            <h4 class="font-bold text-red-800">✅ メメリット</h4>
-                            <p class="text-sm">「理念的信頼」の高さ。気候変動や非正規雇用の撤廃など、数十年にわたり主張を曲げない一貫性は、固定支持層からの圧倒的な信頼に繋がっています [39, 92]。</p>
-                        </div>
-                        <div class="bg-gray-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-gray-800">❌ デメリット・弱点</h4>
-                            <p class="text-sm">財政規律への懸念。抜本的な減税案や防衛費の大幅削減案は、現在の国際情勢や経済メカニズムとの整合性で厳しい指摘を受けています [35]。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- れいわ新選組 -->
-        <div id="reiwa" class="tab-content party-reiwa">
-            <div class="bg-white rounded-xl shadow-sm border p-6">
-                <h2 class="text-3xl font-bold mb-4" style="color: var(--party-color);">れいわ新選組</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div>
-                        <h3 class="font-bold text-lg mb-2">📊 実績と分析指標</h3>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>学生版マニフェスト評価（全政党2位）[8]</span><span>45点 / 100</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 45%; background-color: var(--party-color);"></div></div>
-                        </div>
-                        <div class="mb-4">
-                            <div class="flex justify-between text-sm mb-1"><span>経済インパクト（爆発力）[66]</span><span>未知数</span></div>
-                            <div class="progress-bg"><div class="progress-fill" style="width: 40%; background-color: #f59e0b;"></div></div>
-                        </div>
-                    </div>
-                    <div class="space-y-4">
-                        <div class="bg-pink-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-pink-800">✅ メメリット</h4>
-                            <p class="text-sm">「救済」のメッセージ。現状の社会構造に絶望している層に対する強い再分配姿勢は唯一無二であり、変革への期待値が高いのが特徴です [8, 66]。</p>
-                        </div>
-                        <div class="bg-red-50 p-4 rounded-lg">
-                            <h4 class="font-bold text-red-800">❌ デメリット・弱点</h4>
-                            <p class="text-sm">財源論の不透明感。急激なインフレへの対処法など、経済専門家からはマクロ経済への混乱リスクを懸念される側面があります [66]。</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <!-- Footer / References -->
+        <footer class="bg-slate-100 rounded-2xl p-8 border border-slate-200">
+            <h3 class="font-bold mb-4 text-slate-700 uppercase tracking-widest text-sm">参考文献・一次情報</h3>
+            <ul class="text-xs text-slate-500 space-y-2 list-disc ml-4">
+                <li>早稲田大学デモクラシー創造研究所：2025年参議院選挙マニフェスト「#できばえチェック」</li>
+                <li>WWFジャパン：2026年衆院選 各政党の気候変動・エネルギー政策評価</li>
+                <li>ホリエモンAI選挙：第51回衆議院議員総選挙 議席獲得予測（2026年2月）</li>
+                <li>読売新聞オンライン：衆院選2026 定例世論調査結果</li>
+                <li>FNNプライムオンライン：2026年1月 世論調査 世代別支持率</li>
+                <li>KSI（紀尾井町戦略研究所）：衆院選2026 定例世論調査</li>
+                <li>チームみらい：国政政党化100日プラン達成報告書</li>
+            </ul>
+        </footer>
 
     </main>
 
-    <footer class="bg-gray-800 text-gray-300 py-12 px-6 mt-12 border-t border-gray-700">
-        <div class="max-w-6xl mx-auto">
-            <h3 class="text-xl font-bold mb-8 text-center text-white">📂 情報ソース・根拠資料</h3>
-            
-            <div class="source-grid">
-                <!-- カテゴリ1: 総合報告・選挙分析 -->
-                <div>
-                    <h4 class="font-bold text-white border-b border-gray-600 pb-2 mb-3 text-sm">🏛 総合報告書・学術調査</h4>
-                    <ul class="text-xs space-y-2">
-                        <li><span class="text-blue-400 font-bold">[1]</span> 2026年衆議院議員総選挙 包括的分析報告書</li>
-                        <li><span class="text-blue-400 font-bold">[7]</span> 早稲田大学マニフェスト研究所「できばえチェック2025」</li>
-                        <li><span class="text-blue-400 font-bold">[8]</span> デモクラシー創造研究所「2025参院選マニフェスト学生評価」</li>
-                        <li><span class="text-blue-400 font-bold">[13]</span> 早稲田大学「公約達成率ランキング2025」</li>
-                    </ul>
-                </div>
-                
-                <!-- カテゴリ2: 政党・政策各論 -->
-                <div>
-                    <h4 class="font-bold text-white border-b border-gray-600 pb-2 mb-3 text-sm">📑 政党・政策個別分析</h4>
-                    <ul class="text-xs space-y-2">
-                        <li><span class="text-blue-400 font-bold">[4, 44]</span> 中道改革連合（立憲+公明）重点政策資料</li>
-                        <li><span class="text-blue-400 font-bold">[46-48]</span> 自由民主党 2026年公約および倫理調査</li>
-                        <li><span class="text-blue-400 font-bold">[51-53]</span> 国民民主党・維新の会 実績分析資料</li>
-                        <li><span class="text-blue-400 font-bold">[54, 55]</span> チームみらい デジタル改革提言書</li>
-                        <li><span class="text-blue-400 font-bold">[93]</span> 参政党 重点政策（教育・食の安全）分析</li>
-                    </ul>
-                </div>
-
-                <!-- カテゴリ3: 専門機関評価 -->
-                <div>
-                    <h4 class="font-bold text-white border-b border-gray-600 pb-2 mb-3 text-sm">🌍 専門機関・シンクタンク</h4>
-                    <ul class="text-xs space-y-2">
-                        <li><span class="text-blue-400 font-bold">[35, 66]</span> 経済インパクト予測（独立系シンクタンク）</li>
-                        <li><span class="text-blue-400 font-bold">[39, 92]</span> WWFジャパン / 気候ネットワーク「環境政策評価」</li>
-                        <li><span class="text-blue-400 font-bold">[2]</span> 自治体問題研究所「2024年衆院選自民敗北分析」</li>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="mt-10 pt-6 border-t border-gray-700 text-center text-xs text-gray-500 italic">
-                ※当ガイドは報告書（2026年2月6日時点）に基づき作成されています。投票判断は有権者自身の責任において行ってください。
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        function showTab(partyId) {
-            // 全コンテンツを隠す
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            // 選択されたタブを表示
-            document.getElementById(partyId).classList.add('active');
-            
-            // ボタンのスタイル更新
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                const color = btn.style.color;
-                btn.style.borderBottomColor = 'transparent';
-                btn.style.backgroundColor = 'transparent';
-                if(btn.getAttribute('onclick').includes(partyId)) {
-                    btn.style.borderBottomColor = color;
-                    btn.style.backgroundColor = '#f3f4f6';
-                }
-            });
-        }
-        // 初期表示
-        window.onload = () => showTab('ldp');
-    </script>
 </body>
 </html>
